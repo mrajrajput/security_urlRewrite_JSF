@@ -16,10 +16,16 @@ import java.util.List;
 @Scope (value = "session")
 @Component (value = "listProducts")
 @ELBeanName(value = "listProducts")
-@Join(path = "/", to = "/product/product-list.jsf")
+@Join(path = "/test", to = "/product/product-list.jsf")
 public class ListProductsController {
-	@Autowired
+
+//	@Autowired
 	private ProductRepository productRepository;
+
+	@Autowired
+	public ListProductsController(ProductRepository productRepository){
+		this.productRepository = productRepository;
+	}
 
 	private List<Product> products;
 
