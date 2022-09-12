@@ -77,7 +77,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 					"/javax.faces.resource/*/*",
 					"/javax.faces.resource/*",
 
-					"/", "/login", "/oauth/**"
+					 "/login", "/oauth/**"
 
 					).permitAll()
 			.anyRequest().authenticated()
@@ -86,19 +86,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.formLogin().permitAll()
 				.loginPage("/security/customLogin.jsf")
 
-//				.usernameParameter("user_id")
-//				.passwordParameter("password")
 				.usernameParameter("app_username")
 				.passwordParameter("app_password")
 
+				/*
+					"defaultSuccessUrl" will only come into picture only when loginPage(..)
+					is typed in browser and pressed enter.
+
+					otherwise, any other url can be entered first and browser will take it
+					to loginPage(...) url, but will not take to "defaultSuccessUrl" but will
+					take it to the url entered in browser initially.
+				 */
+
 				//Both below works!! :)
-//				.defaultSuccessUrl("/product/product-list.jsf")
-				.defaultSuccessUrl("/product")
+				//.defaultSuccessUrl("/product/product-list.jsf")
+				.defaultSuccessUrl("/list")
 
-
-//				.usernameParameter("email")
-//				.passwordParameter("pass")
-//				.defaultSuccessUrl("/list")
 
 			.and()
 			.oauth2Login()
@@ -120,7 +123,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 						//We are loading Roles for Google/FB during login here
 						userService.processOAuthPostLogin(oauthUser.getEmail());
 
-						response.sendRedirect("/security/student.jsf");
+						response.sendRedirect("/list");
 					}
 				})
 

@@ -16,7 +16,7 @@ import java.util.List;
 @Scope (value = "session")
 @Component (value = "listProducts")
 @ELBeanName(value = "listProducts")
-@Join(path = "/test", to = "/product/product-list.jsf")
+@Join(path = "/list", to = "/product/product-list.jsf")
 public class ListProductsController {
 
 //	@Autowired
