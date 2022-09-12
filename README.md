@@ -1,6 +1,6 @@
 ### Basic Working Project with 
-#### 1. URL ReWrite @Joint annotation.
-#### 2. SpringBoot, PrimeFaces
+#### 1. SpringBoot, PrimeFaces, SpringSecurity, OCP URL ReWrite, Postgres
+#### 2. login with username and password, and make sure that both username and passward are there in DB along with Roles
 #### 3. http://localhost:8080/product, http://localhost:8080/single?value=2, http://localhost:8080/
 
 <br/>
@@ -27,29 +27,6 @@ This is good for Start/run of SpringBoot project -  Maven plugin
     <artifactId>spring-boot-maven-plugin</artifactId>
 </plugin>
 ````
-
-```
-ReWrite - annotation works as well.
-This is not JSF related ReWrite but JavaEE related 
-
-<dependency>
-    <groupId>org.ocpsoft.rewrite</groupId>
-    <artifactId>rewrite-servlet</artifactId>
-    <version>${rewrite-servlet.version}</version>
-</dependency>
-<dependency>
-    <groupId>org.ocpsoft.rewrite</groupId>
-    <artifactId>rewrite-integration-faces</artifactId>
-    <version>${rewrite-servlet.version}</version>
-</dependency>
-<dependency>
-    <groupId>org.ocpsoft.rewrite</groupId>
-    <artifactId>rewrite-config-prettyfaces</artifactId>
-    <version>${rewrite-servlet.version}</version>
-</dependency>
-```
-<br/>
-<br>
 
 ```
 mojarra Implementation of JSF
@@ -123,6 +100,31 @@ spring.datasource.url=jdbc:postgresql://localhost:5432/productOAuth0?default_dat
 ###Follow this project for Joint 
 /Users/Manjul/IdeaProjects/control-route-optimizer
 
+# For URL Rewrite
+
+
+```
+ReWrite - annotation works as well.
+This is not JSF related ReWrite but JavaEE related 
+
+<dependency>
+    <groupId>org.ocpsoft.rewrite</groupId>
+    <artifactId>rewrite-servlet</artifactId>
+    <version>${rewrite-servlet.version}</version>
+</dependency>
+<dependency>
+    <groupId>org.ocpsoft.rewrite</groupId>
+    <artifactId>rewrite-integration-faces</artifactId>
+    <version>${rewrite-servlet.version}</version>
+</dependency>
+<dependency>
+    <groupId>org.ocpsoft.rewrite</groupId>
+    <artifactId>rewrite-config-prettyfaces</artifactId>
+    <version>${rewrite-servlet.version}</version>
+</dependency>
+```
+<br/>
+
 ###Information realted to ReWrite
 ```
 @Join(path="/path", to="toJsf")
@@ -132,13 +134,99 @@ SetVariable(variable) will be called first.
 @ElResolver, @Scope(""), @Component are required field.
 ```
 
-###Security 
+
+# For Spring Security
+
+
+## What actually worked for me?
+```
+@PreAuthorize("hasAuthority('User')")
+where 'User' is the role name in Role table as 'name' column.
+
+Notes:
+1) We don't have to add ==> .antMatchers("/list").hasAnyRole("User") <==
+in configure method and only addition of role name without(ROLE_) as is
+mentioned in DB in Role table.
+
+	@RequestMapping(value = "/list")
+	@PreAuthorize("hasAuthority('User')")
+	public String viewHomePage(Model model) {
+		List<Product> listProducts = service.listAll();
+		model.addAttribute("listProducts", listProducts);
+		
+		return "products";
+	}
+```
+
+### You need at-least 1 role in Role table to start with.
+```
+You would need to run these queries - during table creation for fist time.
+
+INSERT INTO role (pk_roles_id, name) VALUES (1, 'User');
+INSERT INTO role (pk_roles_id, name) VALUES (2, 'Admin');
+
+INSERT INTO public.users(pk_users_id, enabled, password, provider, username)
+VALUES (2, true, 'Password123', 'form', 'test@gmail.com');
+	
+	
+INSERT INTO public.users_roles(pk_users_roles, role_id, user_id)
+VALUES (2, 2, 2);
+```
+## We need to configure
+#### 1. AuthenticationManagerBuilder bean
+#### 2. HttpSecurity bean
+### 1. How to configure 'AuthenticationManagerBuilder'
+```
+@Override
+protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.authenticationProvider(authenticationProvider());
+}
+
+authenticationProvider: can be DAO/LDAP/OAuth we are using DB
+this provider needs 2 things:
+1. UserDetailsService
+2. PasswordEncoder
+
+
+For 1)
+We override these methods(a & b):
+
+(a)CustomOAuth2UserService.java
+    @Override
+    public OAuth2User loadUser(OAuth2UserRequest userRequest) { }
+&& 
+(b)UserDetailsServiceImpl.java
+    @Override
+    public UserDetails loadUserByUsername(String username) { }
+
+&&
+We have to load `getAuthorities()` using  UserDetailsServiceImpl for both.
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() { }
+
+Note: 
+For OAuth providers, we have to get information from OAuth first, and later
+we can some information from DB(for example Roles), and than we can use that later 
+in bean 'oauthUserService' which gets set in userService(here).
+
+.oauth2Login()
+.loginPage("/login")
+.userInfoEndpoint()
+.userService(oauthUserService)
+
+```
+
+### 2. How to configure HttpSecurity
+```
+@Override
+protected void configure(HttpSecurity http) throws Exception { }
+
+```
+
+
+###Security
 ```
 This project may not be enough
 /Users/Manjul/Downloads/ProductManagerGoogleLogin 
 
 ```
-
-
-
-
