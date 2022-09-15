@@ -48,7 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public UserDetailsService userDetailsService() {
 		return new UserDetailsServiceImpl();
 	}
-	
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 //		return new BCryptPasswordEncoder();
@@ -77,7 +77,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 					"/javax.faces.resource/*/*",
 					"/javax.faces.resource/*",
 
-					 "/login", "/oauth/**"
+					// "/login",
+					"/oauth/**"
 
 					).permitAll()
 			.anyRequest().authenticated()
@@ -100,7 +101,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 				//Both below works!! :)
 				//.defaultSuccessUrl("/product/product-list.jsf")
-				.defaultSuccessUrl("/list")
+				.defaultSuccessUrl("/product/product-list.jsf") //for login page use login.xhtml file path.
+
+				//Here we have move that to a separate class. The problem with this is that beans are not able to
+				//make correctly.
+				//.successHandler(customAuthenticationSuccessHandler)
+
+				//.failureHandler(customAuthenticationFailureHandler)
+				.failureUrl("/security/customLogin.xhtml")
 
 
 			.and()
@@ -110,10 +118,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 					.userService(oauthUserService)
 				.and()
 				.successHandler(new AuthenticationSuccessHandler() {
-
 					@Override
-					public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-							Authentication authentication) throws IOException, ServletException {
+					public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 						System.out.println("AuthenticationSuccessHandler invoked");
 						System.out.println("Authentication name: " + authentication.getName());
 						for (GrantedAuthority auth: authentication.getAuthorities()) {

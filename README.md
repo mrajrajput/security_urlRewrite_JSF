@@ -1,7 +1,7 @@
 ### Basic Working Project with 
 #### 1. SpringBoot, PrimeFaces, SpringSecurity, OCP URL ReWrite, Postgres
 #### 2. login with username and password, and make sure that both username and passward are there in DB along with Roles
-#### 3. http://localhost:8080/product, http://localhost:8080/single?value=2, http://localhost:8080/
+#### 3. http://localhost:8080/product, http://localhost:8080/single?value=2, http://localhost:8080/list
 
 <br/>
 
