@@ -103,11 +103,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				//.defaultSuccessUrl("/product/product-list.jsf")
 				.defaultSuccessUrl("/product/product-list.jsf") //for login page use login.xhtml file path.
 
-				//Here we have move that to a separate class. The problem with this is that beans are not able to
-				//make correctly.
-				//.successHandler(customAuthenticationSuccessHandler)
-
-				//.failureHandler(customAuthenticationFailureHandler)
 				.failureUrl("/security/customLogin.xhtml")
 
 

@@ -40,6 +40,11 @@ public class ProductController {
 		return "/product/product-list.xhtml?faces-redirect=true";
 	}
 
+	public String getLetsDoIt(){
+		return "/logout";
+	}
+
+
 	public Product getProduct() {
 		return product;
 	}
