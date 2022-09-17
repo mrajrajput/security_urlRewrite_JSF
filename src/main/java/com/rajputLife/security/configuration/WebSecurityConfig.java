@@ -77,7 +77,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 					"/javax.faces.resource/*/*",
 					"/javax.faces.resource/*",
 
-					// "/login",
+//					 "/login",
 					"/oauth/**"
 
 					).permitAll()

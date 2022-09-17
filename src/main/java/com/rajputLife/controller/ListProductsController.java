@@ -19,7 +19,7 @@ import java.util.List;
 @Join(path = "/list", to = "/product/product-list.jsf")
 public class ListProductsController {
 
-//	@Autowired
+	//	@Autowired
 	private ProductRepository productRepository;
 
 	@Autowired
