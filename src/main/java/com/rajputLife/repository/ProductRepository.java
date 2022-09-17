@@ -1,4 +1,4 @@
-package com.rajputLife.persistence;
+package com.rajputLife.repository;
 
 import com.rajputLife.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;

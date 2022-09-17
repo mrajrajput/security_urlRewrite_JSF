@@ -1,17 +1,17 @@
 package com.rajputLife.controller;
 
 import com.rajputLife.model.Product;
-import com.rajputLife.persistence.ProductRepository;
+import com.rajputLife.repository.ProductRepository;
 import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.annotation.RequestAction;
 import org.ocpsoft.rewrite.el.ELBeanName;
 import org.ocpsoft.rewrite.faces.annotation.Deferred;
 import org.ocpsoft.rewrite.faces.annotation.IgnorePostback;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
+import javax.inject.Inject;
 import java.util.List;
 
 @Controller(value = "myloginController")
@@ -25,7 +25,7 @@ public class MyLoginController {
 
 	private List<Product> products;
 
-	@Autowired
+	@Inject
 	public MyLoginController(ProductRepository productRepository){
 		this.productRepository = productRepository;
 	}

@@ -16,10 +16,10 @@ import org.springframework.context.annotation.ComponentScan;
 		"com.rajputLife.controller/*",
 		"com.rajputLife.controller",
 		"com.rajputLife.entity.security",
-		"com.rajputLife.persistence",
 		"com.rajputLife.security.configuration",
 		"com.rajputLife.security.oauth",
 		"com.rajputLife.security.userDetails",
+		"com.rajputLife.repository",
  		"com.rajputLife.repository.security"})
 public class Application { //extends SpringBootServletInitializer {
 
