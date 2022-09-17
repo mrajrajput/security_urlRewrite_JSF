@@ -21,8 +21,13 @@ import javax.servlet.http.HttpServletRequest;
 //http://localhost:8080/single?value=2 will work
 @Join(path = "/single", to = "/product/product.jsf")
 public class SingleProductController {
-	@Autowired
+
 	private ProductRepository productRepository;
+
+	@Autowired
+	public SingleProductController(ProductRepository productRepository){
+		this.productRepository = productRepository;
+	}
 
 //	@PathPattern("//W{1}")
 	@Parameter

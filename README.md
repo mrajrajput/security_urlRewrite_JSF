@@ -1,6 +1,6 @@
 ```aidl
 "to" page will load when "path" is put in browser and pressed enter.
-ElBeanName will be used in page(in "to"). 
+ElBeanName will be used in page(/product/product-list.jsf). 
 
 @ELBeanName(value = "listProducts")
 @Join(path = "/list", to = "/product/product-list.jsf")
@@ -140,6 +140,7 @@ Query variable will have @Deferred and @Parameter
 SetVariable(variable) will be called first.
 
 @ElResolver, @Scope(""), @Component are required field.
+Constructor injection is the only way for injection.
 ```
 
 
