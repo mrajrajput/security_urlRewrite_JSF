@@ -1,7 +1,15 @@
+```aidl
+"to" page will load when "path" is put in browser and pressed enter.
+ElBeanName will be used in page(/product/product-list.jsf). 
+
+@ELBeanName(value = "listProducts")
+@Join(path = "/list", to = "/product/product-list.jsf")
+```
+
 ### Basic Working Project with 
 #### 1. SpringBoot, PrimeFaces, SpringSecurity, OCP URL ReWrite, Postgres
-#### 2. login with username and password, and make sure that both username and passward are there in DB along with Roles
-#### 3. http://localhost:8080/product, http://localhost:8080/single?value=2, http://localhost:8080/
+#### 2. login with username and password, and make sure that both username and password are there in DB along with Roles
+#### 3. http://localhost:8080 will take you to http://localhost:8800/account url with help from index.html. Other urls are: http://localhost:8080/single?value=2, http://localhost:8080/list, http://localhost:8080/product
 
 <br/>
 
@@ -132,6 +140,7 @@ Query variable will have @Deferred and @Parameter
 SetVariable(variable) will be called first.
 
 @ElResolver, @Scope(""), @Component are required field.
+Constructor injection is the only way for injection.
 ```
 
 
@@ -210,7 +219,7 @@ we can some information from DB(for example Roles), and than we can use that lat
 in bean 'oauthUserService' which gets set in userService(here).
 
 .oauth2Login()
-.loginPage("/login")
+.loginPage("/account")
 .userInfoEndpoint()
 .userService(oauthUserService)
 
@@ -228,5 +237,52 @@ protected void configure(HttpSecurity http) throws Exception { }
 ```
 This project may not be enough
 /Users/Manjul/Downloads/ProductManagerGoogleLogin 
+
+```
+
+# Errors
+```aidl
+OcpSoft: No qualifying bean of type:
+
+Failed to handle PhaseOperation [org.ocpsoft.rewrite.faces.config.PhaseOperation$DeferredOperation@5604e199]
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: 
+Error creating bean with name 'myloginController' defined in file [/Users/Manjul/IdeaProjects/security_urlRewrite_JSF/src/main/webapp/WEB-INF/classes/com/rajputLife/controller/MyLoginController.class]: 
+Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.rajputLife.persistence.ProductRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+
+1. index.html contains "/logmein"
+        <meta http-equiv="Refresh"
+                  content="0; URL=/logmein"/>
+                  
+2. at src/main/webapp/registered/product-list.xhtml, we are referencing bean of "listProducts"
+    <p:dataTable id="table" var="product" value="#{listProducts.products}">
+    
+3. MyLoginController.java
+    @ELBeanName(value = "myloginController")
+    @Join(path = "/logmein", to = "/registered/product-list.jsf")
+
+4. webapp/registered/product-list.xhtml
+    <p:dataTable id="table" var="product" value="#{listProducts.products}">
+
+Info and reason for failure:
+Contoller's path("/logmein") is typed in browser and it will take you to the toPath("/registered/product-list.jsf")
+the bean name referenced in jsf file should match bean's name in controller's ElBeanName.
+
+```
+<br/>
+
+```aidl
+response.sendRedirect("/list") in OAuth showing Dependency bean issue
+
+We needed to change "/account" from "/list" since http://localhost:8080 ==> index.html ==> to "/account"
+==> thus Spring was told to take to "/account"(from index.html) and "/list"(from OAuth) and thus it was 
+showing Spring dependency issues. 
+
+Solution:
+make it compatible with URL of index.html
+```
+<br/>
+
+```aidl
+
 
 ```

@@ -19,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import sun.applet.resources.MsgAppletViewer_es;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -48,7 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public UserDetailsService userDetailsService() {
 		return new UserDetailsServiceImpl();
 	}
-	
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 //		return new BCryptPasswordEncoder();
@@ -77,7 +78,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 					"/javax.faces.resource/*/*",
 					"/javax.faces.resource/*",
 
-					 "/login", "/oauth/**"
+//					 "/login",
+					"/oauth/**"
 
 					).permitAll()
 			.anyRequest().authenticated()
@@ -100,7 +102,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 				//Both below works!! :)
 				//.defaultSuccessUrl("/product/product-list.jsf")
-				.defaultSuccessUrl("/list")
+				.defaultSuccessUrl("/product/product-list.jsf") //for login page use login.xhtml file path.
+
+				.failureUrl("/security/customLogin.xhtml")
 
 
 			.and()
@@ -110,10 +114,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 					.userService(oauthUserService)
 				.and()
 				.successHandler(new AuthenticationSuccessHandler() {
-
 					@Override
-					public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-							Authentication authentication) throws IOException, ServletException {
+					public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 						System.out.println("AuthenticationSuccessHandler invoked");
 						System.out.println("Authentication name: " + authentication.getName());
 						for (GrantedAuthority auth: authentication.getAuthorities()) {
@@ -123,11 +125,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 						//We are loading Roles for Google/FB during login here
 						userService.processOAuthPostLogin(oauthUser.getEmail());
 
-						response.sendRedirect("/list");
+						response.sendRedirect("/account");
+						/* We needed to change "/account" from "/list" since http://localhost:8080 ==> index.html ==> to "/account"
+						   ==> thus Spring was told to take to "/account"(from index.html) and "/list"(from OAuth) and thus it was
+						   showing Spring dependency issues.
+						*/
 					}
 				})
 
 				.and()
+				//TODO: work on logout URL.
 				.logout().logoutSuccessUrl("/").permitAll()
 				.and()
 				.exceptionHandling().accessDeniedPage("/403");

@@ -10,32 +10,25 @@ import org.ocpsoft.rewrite.faces.annotation.IgnorePostback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
-import javax.inject.Inject;
 import java.util.List;
 
-@Scope (value = "session")
-@Component (value = "listProducts")
-@ELBeanName(value = "listProducts")
-@Join(path = "/list", to = "/product/product-list.jsf")
-public class ListProductsController {
+@Controller(value = "myloginController")
+@Scope(value = "session")
+@Component(value = "myloginController")
+@ELBeanName(value = "myloginController")
+@Join(path = "/account", to = "/registered/product-list-forRegisteredUser.jsf")
+public class MyLoginController {
 
-	//	@Autowired
-	private ProductRepository productRepository;
-
-	@Autowired(required = true)
-	public ListProductsController(ProductRepository productRepository){
-		this.productRepository = productRepository;
-	}
-
-//	@Inject
-//	public ListProductsController(ProductRepository productRepository, List<Product> products){
-//		this.productRepository = productRepository;
-//		this.products = products;
-//	}
+ 	private ProductRepository productRepository;
 
 	private List<Product> products;
 
+	@Autowired
+	public MyLoginController(ProductRepository productRepository){
+		this.productRepository = productRepository;
+	}
 
 	@Deferred
 	@RequestAction

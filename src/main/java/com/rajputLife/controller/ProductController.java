@@ -6,14 +6,8 @@ import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.el.ELBeanName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.List;
 
 //@Service
 @Controller(value = "productController")
@@ -45,6 +39,11 @@ public class ProductController {
 //		product = new Product();
 		return "/product/product-list.xhtml?faces-redirect=true";
 	}
+
+	public String getLetsDoIt(){
+		return "/logout";
+	}
+
 
 	public Product getProduct() {
 		return product;
