@@ -1,13 +1,14 @@
 package com.rajputLife.controller;
 
 import com.rajputLife.model.Product;
-import com.rajputLife.persistence.ProductRepository;
+import com.rajputLife.repository.ProductRepository;
 import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.el.ELBeanName;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+
+import javax.inject.Inject;
 
 //@Service
 @Controller(value = "productController")
@@ -16,10 +17,10 @@ import org.springframework.stereotype.Controller;
 @ELBeanName(value = "productController")
 @Join(path = "/product", to = "/product/product-form.jsf")
 public class ProductController {
-//	@Autowired
+
 	private ProductRepository productRepository;
 
-	@Autowired
+	@Inject
 	public ProductController(ProductRepository productRepository){
 		this.productRepository = productRepository;
 	}

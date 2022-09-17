@@ -1,18 +1,18 @@
 package com.rajputLife.controller;
 
 import com.rajputLife.model.Product;
-import com.rajputLife.persistence.ProductRepository;
+import com.rajputLife.repository.ProductRepository;
 import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.annotation.Parameter;
 import org.ocpsoft.rewrite.annotation.RequestAction;
 import org.ocpsoft.rewrite.el.ELBeanName;
 import org.ocpsoft.rewrite.faces.annotation.Deferred;
 import org.ocpsoft.rewrite.faces.annotation.IgnorePostback;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 @Scope(value = "session")
@@ -24,7 +24,7 @@ public class SingleProductController {
 
 	private ProductRepository productRepository;
 
-	@Autowired
+	@Inject
 	public SingleProductController(ProductRepository productRepository){
 		this.productRepository = productRepository;
 	}
