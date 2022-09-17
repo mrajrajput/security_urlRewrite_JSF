@@ -247,7 +247,7 @@ OcpSoft: No qualifying bean of type:
 Failed to handle PhaseOperation [org.ocpsoft.rewrite.faces.config.PhaseOperation$DeferredOperation@5604e199]
 Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: 
 Error creating bean with name 'myloginController' defined in file [/Users/Manjul/IdeaProjects/security_urlRewrite_JSF/src/main/webapp/WEB-INF/classes/com/rajputLife/controller/MyLoginController.class]: 
-Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.rajputLife.persistence.ProductRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.rajputLife.repository.ProductRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
 
 1. index.html contains "/logmein"
         <meta http-equiv="Refresh"
