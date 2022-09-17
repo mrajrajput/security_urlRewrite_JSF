@@ -2,6 +2,7 @@ package com.rajputLife;
 
 //import javax.faces.webapp.FacesServlet;
 //import org.ocpsoft.rewrite.servlet.RewriteFilter;
+import com.rajputLife.repository.ProductRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,7 +21,9 @@ import org.springframework.context.annotation.ComponentScan;
 		"com.rajputLife.security.oauth",
 		"com.rajputLife.security.userDetails",
 		"com.rajputLife.repository",
- 		"com.rajputLife.repository.security"})
+ 		"com.rajputLife.repository.security"}
+
+			)
 public class Application { //extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {

@@ -125,12 +125,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 						//We are loading Roles for Google/FB during login here
 						userService.processOAuthPostLogin(oauthUser.getEmail());
 
-						response.sendRedirect("/");
+						response.sendRedirect("/account");
 						/* We needed to change "/account" from "/list" since http://localhost:8080 ==> index.html ==> to "/account"
 						   ==> thus Spring was told to take to "/account"(from index.html) and "/list"(from OAuth) and thus it was
 						   showing Spring dependency issues.
 
-						   WTH "/list" was replaced with "/account" now replaced with "/"
+						   WTH "/list" was replaced with "/account" now replaced with "/" now replaced with "/account"
 						*/
 					}
 				})
