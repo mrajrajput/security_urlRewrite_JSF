@@ -19,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import sun.applet.resources.MsgAppletViewer_es;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -124,11 +125,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 						//We are loading Roles for Google/FB during login here
 						userService.processOAuthPostLogin(oauthUser.getEmail());
 
-						response.sendRedirect("/list");
+						response.sendRedirect("/login");
+						/* We needed to change "/login" from "/list" since http://localhost:8080 ==> index.html ==> to "/login"
+						   ==> thus Spring was told to take to "/login"(from index.html) and "/list"(from OAuth) and thus it was
+						   showing Spring dependency issues.
+						*/
 					}
 				})
 
 				.and()
+				//TODO: work on logout URL.
 				.logout().logoutSuccessUrl("/").permitAll()
 				.and()
 				.exceptionHandling().accessDeniedPage("/403");

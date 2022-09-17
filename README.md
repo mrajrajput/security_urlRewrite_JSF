@@ -268,6 +268,19 @@ Contoller's path("/logmein") is typed in browser and it will take you to the toP
 the bean name referenced in jsf file should match bean's name in controller's ElBeanName.
 
 ```
+<br/>
+
+```aidl
+response.sendRedirect("/list") in OAuth showing Dependency bean issue
+
+We needed to change "/login" from "/list" since http://localhost:8080 ==> index.html ==> to "/login"
+==> thus Spring was told to take to "/login"(from index.html) and "/list"(from OAuth) and thus it was 
+showing Spring dependency issues. 
+
+Solution:
+make it compatible with URL of index.html
+```
+<br/>
 
 ```aidl
 

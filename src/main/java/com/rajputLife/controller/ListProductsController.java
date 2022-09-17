@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
 import java.util.List;
 
 @Scope (value = "session")
@@ -22,12 +23,19 @@ public class ListProductsController {
 	//	@Autowired
 	private ProductRepository productRepository;
 
-	@Autowired
+	@Autowired(required = true)
 	public ListProductsController(ProductRepository productRepository){
 		this.productRepository = productRepository;
 	}
 
+//	@Inject
+//	public ListProductsController(ProductRepository productRepository, List<Product> products){
+//		this.productRepository = productRepository;
+//		this.products = products;
+//	}
+
 	private List<Product> products;
+
 
 	@Deferred
 	@RequestAction
