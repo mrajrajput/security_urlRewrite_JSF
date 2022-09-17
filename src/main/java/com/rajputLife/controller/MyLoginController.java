@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
+import javax.inject.Inject;
 import java.util.List;
 
 @Controller(value = "myloginController")
@@ -25,7 +26,7 @@ public class MyLoginController {
 
 	private List<Product> products;
 
-	@Autowired
+	@Inject
 	public MyLoginController(ProductRepository productRepository){
 		this.productRepository = productRepository;
 	}
