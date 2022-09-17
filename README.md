@@ -9,7 +9,7 @@ ElBeanName will be used in page(/product/product-list.jsf).
 ### Basic Working Project with 
 #### 1. SpringBoot, PrimeFaces, SpringSecurity, OCP URL ReWrite, Postgres
 #### 2. login with username and password, and make sure that both username and password are there in DB along with Roles
-#### 3. http://localhost:8080 will take you to http://localhost:8800/login url with help from index.html. Other urls are: http://localhost:8080/single?value=2, http://localhost:8080/list, http://localhost:8080/product
+#### 3. http://localhost:8080 will take you to http://localhost:8800/account url with help from index.html. Other urls are: http://localhost:8080/single?value=2, http://localhost:8080/list, http://localhost:8080/product
 
 <br/>
 
@@ -219,7 +219,7 @@ we can some information from DB(for example Roles), and than we can use that lat
 in bean 'oauthUserService' which gets set in userService(here).
 
 .oauth2Login()
-.loginPage("/login")
+.loginPage("/account")
 .userInfoEndpoint()
 .userService(oauthUserService)
 
@@ -273,8 +273,8 @@ the bean name referenced in jsf file should match bean's name in controller's El
 ```aidl
 response.sendRedirect("/list") in OAuth showing Dependency bean issue
 
-We needed to change "/login" from "/list" since http://localhost:8080 ==> index.html ==> to "/login"
-==> thus Spring was told to take to "/login"(from index.html) and "/list"(from OAuth) and thus it was 
+We needed to change "/account" from "/list" since http://localhost:8080 ==> index.html ==> to "/account"
+==> thus Spring was told to take to "/account"(from index.html) and "/list"(from OAuth) and thus it was 
 showing Spring dependency issues. 
 
 Solution:
